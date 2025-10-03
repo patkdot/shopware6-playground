@@ -1,0 +1,27 @@
+{
+    "name": "kdot/playground",
+    "description": "kdots playground",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "KdotPlayground\\KdotPlayground",
+        "label": {
+            "de-DE": "Kdot Playground",
+            "en-GB": "Kdot Playground"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "KdotPlayground\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KdotPlayground\\Tests\\": "tests/"
+        }
+    }
+}
