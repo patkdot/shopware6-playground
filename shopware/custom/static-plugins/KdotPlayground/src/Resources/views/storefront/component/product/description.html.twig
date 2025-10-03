@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/component/product/description.html.twig' %}
+{% block component_product_description_content_text %}
+    {% if page.getExtension('kdot') %}
+        test-kdot-{{ dump(page.getExtension('kdot')) }}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

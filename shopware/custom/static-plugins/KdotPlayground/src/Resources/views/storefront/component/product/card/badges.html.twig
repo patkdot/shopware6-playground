@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/component/product/card/badges.html.twig' %}
+
+{% block component_product_badges_new %}
+    {{ parent() }}
+
+    <div id="kdot-bought-badge-template" class="kdot-bought" style="display: none;">
+        <span class="badge bg-success badge-bought">{{ 'kdot.bought'|trans }}</span>
+    </div>
+{% endblock %}
