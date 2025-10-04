@@ -1,22 +1,30 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace KdotPlayground;
 
+use KdotPlayground\Installer\CustomFieldsInstaller;
+use Psr\Container\ContainerInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
-use KdotPlayground\Installer\CustomFieldsInstaller;
 
 class KdotPlayground extends Plugin
 {
     public function install(InstallContext $installContext): void
     {
-        // Do stuff such as creating a new payment method
+        parent::install($installContext);
 
-        $this->getCustomFieldsInstaller()->install($installContext->getContext());
+        $installer = $this->getCustomFieldsInstaller();
+
+        if ($installer !== null) {
+            $installer->install($installContext->getContext());
+        }
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -26,27 +34,25 @@ class KdotPlayground extends Plugin
         if ($uninstallContext->keepUserData()) {
             return;
         }
-
-        // Remove or deactivate the data created by the plugin
     }
 
     public function activate(ActivateContext $activateContext): void
     {
-        // Activate entities, such as a new payment method
-        // Or create new entities here, because now your plugin is installed and active for sure
+        parent::activate($activateContext);
 
-        $this->getCustomFieldsInstaller()->addRelations($activateContext->getContext());
+        $installer = $this->getCustomFieldsInstaller();
+
+        if ($installer !== null) {
+            $installer->addRelations($activateContext->getContext());
+        }
     }
 
     public function deactivate(DeactivateContext $deactivateContext): void
     {
-        // Deactivate entities, such as a new payment method
-        // Or remove previously created entities
     }
 
     public function update(UpdateContext $updateContext): void
     {
-        // Update necessary stuff, mostly non-database related
     }
 
     public function postInstall(InstallContext $installContext): void
@@ -57,15 +63,31 @@ class KdotPlayground extends Plugin
     {
     }
 
-    private function getCustomFieldsInstaller(): CustomFieldsInstaller
+    private function getCustomFieldsInstaller(): ?CustomFieldsInstaller
     {
-        if ($this->container->has(CustomFieldsInstaller::class)) {
-            return $this->container->get(CustomFieldsInstaller::class);
+        $container = $this->container;
+
+        if (!$container instanceof ContainerInterface) {
+            return null;
         }
 
-        return new CustomFieldsInstaller(
-            $this->container->get('custom_field_set.repository'),
-            $this->container->get('custom_field_set_relation.repository')
-        );
+        if ($container->has(CustomFieldsInstaller::class)) {
+            $installer = $container->get(CustomFieldsInstaller::class);
+
+            return $installer instanceof CustomFieldsInstaller ? $installer : null;
+        }
+
+        if (!$container->has('custom_field_set.repository') || !$container->has('custom_field_set_relation.repository')) {
+            return null;
+        }
+
+        $customFieldSetRepository = $container->get('custom_field_set.repository');
+        $customFieldSetRelationRepository = $container->get('custom_field_set_relation.repository');
+
+        if (!$customFieldSetRepository instanceof EntityRepository || !$customFieldSetRelationRepository instanceof EntityRepository) {
+            return null;
+        }
+
+        return new CustomFieldsInstaller($customFieldSetRepository, $customFieldSetRelationRepository);
     }
 }

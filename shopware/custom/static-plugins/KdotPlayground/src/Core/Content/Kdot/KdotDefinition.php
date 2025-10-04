@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Core\Content\Kdot;
 
+use KdotPlayground\Core\Content\Kdot\Aggregate\KdotTranslationDefinition;
+use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
-use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
-use KdotPlayground\Core\Content\Kdot\Aggregate\KdotTranslationDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class KdotDefinition extends EntityDefinition
 {
@@ -47,7 +47,7 @@ class KdotDefinition extends EntityDefinition
             (new TranslationsAssociationField(
                 KdotTranslationDefinition::class,
                 'kdot_id'
-            ))->addFlags(new Required())
+            ))->addFlags(new Required()),
         ]);
     }
 

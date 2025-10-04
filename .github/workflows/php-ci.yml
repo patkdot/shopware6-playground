@@ -1,0 +1,71 @@
+name: PHP CI
+
+on:
+  push:
+    paths:
+      - 'shopware/custom/static-plugins/**'
+      - '.github/workflows/php-ci.yml'
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        coverage: none
+        tools: composer:v2
+    
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    
+    - name: Install dependencies
+      run: |
+        cd shopware && composer install
+    
+    - name: Run PHPStan
+      run: |
+        cd shopware && ./vendor/bin/phpstan analyse
+
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        coverage: none
+        tools: composer:v2
+    
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    
+    - name: Install dependencies
+      run: |
+        cd shopware && composer install
+    
+    - name: Run PHP-CS-Fixer
+      run: |
+        cd shopware && ./vendor/bin/php-cs-fixer check
+      continue-on-error: true

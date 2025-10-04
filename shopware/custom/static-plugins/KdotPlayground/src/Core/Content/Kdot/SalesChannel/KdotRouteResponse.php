@@ -9,7 +9,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\System\SalesChannel\StoreApiResponse;
 
 /**
- * @property EntitySearchResult $object
+ * @extends StoreApiResponse<EntitySearchResult<KdotCollection>>
+ *
+ * @property EntitySearchResult<KdotCollection> $object
  */
 class KdotRouteResponse extends StoreApiResponse
 {

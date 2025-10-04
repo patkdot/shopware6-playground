@@ -22,3 +22,10 @@ services:
     ports:
       - "9200"
 ###< shopware/elasticsearch ###
+
+###> symfony/amqp-messenger ###
+  lavinmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+###< symfony/amqp-messenger ###

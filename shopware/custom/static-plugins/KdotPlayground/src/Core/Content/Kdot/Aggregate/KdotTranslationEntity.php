@@ -1,25 +1,28 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace KdotPlayground\Core\Content\Kdot\Aggregate;
 
-use Shopware\Core\Framework\DataAbstractionLayer\TranslationEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use KdotPlayground\Core\Content\Kdot\KdotEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
+use Shopware\Core\Framework\DataAbstractionLayer\TranslationEntity;
 
 class KdotTranslationEntity extends TranslationEntity
 {
     use EntityIdTrait;
 
-    protected ?string $kdotId;
-    protected ?string $name;
-    protected ?string $description;
+    protected ?string $kdotId = null;
+    protected ?string $name = null;
+    protected ?string $description = null;
+    protected ?KdotEntity $kdot = null;
 
-    public function getKdotId(): string
+    public function getKdotId(): ?string
     {
         return $this->kdotId;
     }
 
-    public function setKdotId(string $kdotId): void
+    public function setKdotId(?string $kdotId): void
     {
         $this->kdotId = $kdotId;
     }
@@ -44,7 +47,7 @@ class KdotTranslationEntity extends TranslationEntity
         $this->description = $description;
     }
 
-    public function getKdot(): KdotEntity
+    public function getKdot(): ?KdotEntity
     {
         return $this->kdot;
     }

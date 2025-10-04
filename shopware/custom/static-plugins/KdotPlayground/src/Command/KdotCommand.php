@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Command;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use KdotPlayground\Service\KdotService;
+use KdotPlayground\Service\ProductService;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -19,42 +19,40 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class KdotCommand extends Command
 {
-    /**
-     * @param EntityRepository<KdotCollection> $kdotRepository
-     * @param EntityRepository<ProductCollection> $productRepository
-     */
     public function __construct(
-        private readonly EntityRepository $kdotRepository,
-        private EntityRepository $productRepository,
+        private readonly KdotService $kdotService,
+        private readonly ProductService $productService,
     ) {
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption('fast', 'f', InputOption::VALUE_NONE, 'Fast import with raw sql and sync service')
+            ->addOption('use-queue', 'queue', InputOption::VALUE_NONE, 'Use queue for upserts');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $criteria = new Criteria();
-        $criteria->addAssociation('kdot');
-        $allProducts = $this->productRepository->search($criteria, Context::createDefaultContext())->getEntities();
-        $upserts = [];
-        /** @var ProductEntity $product */
-        foreach ($allProducts as $product) {
-            if ($product->getExtension('kdot')->count() > 0) {
-                continue;
-            }
-            $upserts[] = [
-                'id' => Uuid::randomHex(),
-                'translations' => [
-                    'de-DE' => ['name' => 'Kdot DE ' . $product->getName(), 'description' => 'Kdot DE ' . $product->getDescription()],
-                    'en-GB' => ['name' => 'Kdot EN ' . $product->getName(), 'description' => 'Kdot EN ' . $product->getDescription()],
-                ],
-                'active' => true,
-                'productId' => $product->getId(),
-            ];
+        $useQueue = $input->getOption('use-queue');
+        $fast = $input->getOption('fast');
+        $context = Context::createDefaultContext();
+
+        if ($fast) {
+            $allProducts = $this->productService->getAllProductsViaRawSql($context);
+            $upsertsCount = $this->kdotService->upsertFromProductCollectionViaSync($allProducts, $context, $useQueue);
+        } else {
+            $allProducts = $this->productService->getAllProducts();
+            $upsertsCount = $this->kdotService->upsertFromProductCollectionViaRepository($allProducts, $context, $useQueue);
         }
 
-        $this->kdotRepository->upsert($upserts, Context::createDefaultContext());
+        $message = 'Kdot imported ' . $upsertsCount . ' elements successfully';
 
-        $output->writeln('Kdot imported ' . count($upserts) . ' elements successfully');
+        if ($useQueue) {
+            $message .= ' into the queue';
+        }
+        $output->writeln($message);
 
         return Command::SUCCESS;
     }
