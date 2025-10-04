@@ -4,4 +4,4 @@ framework:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
             
         routing:
-            'KdotPlayground\Message\KdotUpsertMessage': async
+            # 'KdotPlayground\Message\KdotUpsertMessage': async
