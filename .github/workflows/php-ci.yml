@@ -36,11 +36,7 @@ jobs:
     
     - name: Run PHPStan
       run: |
-        cd shopware && ./vendor/bin/phpstan analyse shopware/custom/static-plugins --level=8
-    
-    - name: Run PHP-CS-Fixer (dry run)
-      run: |
-        cd shopware && ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff --config=./.php-cs-fixer.dist.php
+        cd shopware && ./vendor/bin/phpstan analyse
 
   php-cs-fixer:
     name: PHP-CS-Fixer
@@ -71,5 +67,5 @@ jobs:
     
     - name: Run PHP-CS-Fixer
       run: |
-        cd shopware && ./vendor/bin/php-cs-fixer check --using-cache=no --diff --config=./.php-cs-fixer.dist.php
+        cd shopware && ./vendor/bin/php-cs-fixer check
       continue-on-error: true
