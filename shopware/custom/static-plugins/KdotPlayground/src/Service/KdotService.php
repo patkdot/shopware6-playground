@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Service;
 
-use Shopware\Core\Framework\Api\Sync\SyncService;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\Uuid\Uuid;
+use KdotPlayground\Core\Content\Kdot\KdotCollection;
+use KdotPlayground\Core\Content\Kdot\KdotDefinition;
+use KdotPlayground\Message\KdotUpsertMessage;
 use Shopware\Core\Content\Product\ProductCollection;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Api\Sync\SyncBehavior;
 use Shopware\Core\Framework\Api\Sync\SyncOperation;
+use Shopware\Core\Framework\Api\Sync\SyncService;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\Messenger\MessageBusInterface;
-use KdotPlayground\Core\Content\Kdot\KdotDefinition;
-use KdotPlayground\Message\KdotUpsertMessage;
 
 class KdotService
 {
+    /**
+     * @param EntityRepository<KdotCollection> $kdotRepository
+     */
     public function __construct(
         private readonly EntityRepository $kdotRepository,
         private readonly SyncService $syncService,
@@ -30,10 +34,12 @@ class KdotService
         $upserts = [];
         /** @var ProductEntity $product */
         foreach ($productCollection as $product) {
-            if ($product->getExtension('kdot')?->count() > 0) {
+            $kdotExtension = $product->getExtension('kdot');
+
+            if ($kdotExtension !== null) {
                 continue;
             }
-            
+
             $upserts[] = [
                 'id' => Uuid::randomHex(),
                 'translations' => [
@@ -50,7 +56,7 @@ class KdotService
         }
 
         if ($useQueue) {
-            $this->messageBus->dispatch(new KdotUpsertMessage($upserts, $context, false));
+            $this->messageBus->dispatch(new KdotUpsertMessage(['data' => $upserts], $context, false));
         } else {
             $this->kdotRepository->upsert($upserts, $context);
         }
@@ -58,6 +64,9 @@ class KdotService
         return count($upserts);
     }
 
+    /**
+     * @param array<array{id: string, name: string, description: string, kdot_id: string|null}> $products
+     */
     public function upsertFromProductCollectionViaSync(array $products, Context $context, bool $useQueue = true): int
     {
         $upserts = [];
@@ -81,7 +90,7 @@ class KdotService
         }
 
         if ($useQueue) {
-            $this->messageBus->dispatch(new KdotUpsertMessage($upserts, $context, true));
+            $this->messageBus->dispatch(new KdotUpsertMessage(['data' => $upserts], $context, true));
         } else {
             $this->syncService->sync([
                 new SyncOperation(
@@ -96,6 +105,9 @@ class KdotService
         return count($upserts);
     }
 
+    /**
+     * @param array<array<string, mixed>> $upserts
+     */
     public function directUpsertViaSync(array $upserts, Context $context): int
     {
         $this->syncService->sync([
@@ -110,6 +122,9 @@ class KdotService
         return count($upserts);
     }
 
+    /**
+     * @param array<array<string, mixed>> $upsert
+     */
     public function directUpsertViaRepository(array $upsert, Context $context): int
     {
         $this->kdotRepository->upsert($upsert, $context);

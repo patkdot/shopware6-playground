@@ -16,7 +16,7 @@ class KdotUpsertMessageHandler
     ) {
     }
 
-    public function __invoke(KdotUpsertMessage $message)
+    public function __invoke(KdotUpsertMessage $message): void
     {
         if ($message->isSync()) {
             $this->kdotService->directUpsertViaSync($message->getUpserts(), $message->getContext());

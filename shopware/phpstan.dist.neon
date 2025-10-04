@@ -1,0 +1,23 @@
+parameters:
+    level: 8
+    paths:
+        - custom/static-plugins
+    
+    excludePaths:
+        - */Test/*
+        - */test/*
+        - */Tests/*
+        - */tests/*
+        - */cache/*
+        - */var/cache/*
+        - */var/log/*
+    
+    dynamicConstantNames:
+        - SHOPWARE_VERSION
+    
+    bootstrapFiles:
+        - vendor/autoload.php
+    
+    parallel:
+        maximumNumberOfProcesses: 4
+        processTimeout: 300.0

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Command;
 
+use KdotPlayground\Service\KdotService;
+use KdotPlayground\Service\ProductService;
 use Shopware\Core\Framework\Context;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use KdotPlayground\Service\ProductService;
-use KdotPlayground\Service\KdotService;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'kdot:import',
@@ -38,7 +38,7 @@ class KdotCommand extends Command
         $useQueue = $input->getOption('use-queue');
         $fast = $input->getOption('fast');
         $context = Context::createDefaultContext();
-        
+
         if ($fast) {
             $allProducts = $this->productService->getAllProductsViaRawSql($context);
             $upsertsCount = $this->kdotService->upsertFromProductCollectionViaSync($allProducts, $context, $useQueue);
@@ -48,6 +48,7 @@ class KdotCommand extends Command
         }
 
         $message = 'Kdot imported ' . $upsertsCount . ' elements successfully';
+
         if ($useQueue) {
             $message .= ' into the queue';
         }
