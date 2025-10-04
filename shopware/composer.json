@@ -8,6 +8,7 @@
         "shopware/core": "v6.7.2.2",
         "shopware/elasticsearch": "*",
         "shopware/storefront": "*",
+        "symfony/amqp-messenger": "^7.3",
         "symfony/flex": "~2"
     },
     "repositories": [

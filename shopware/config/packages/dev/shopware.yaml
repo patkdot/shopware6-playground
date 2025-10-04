@@ -1,0 +1,7 @@
+shopware:
+    redis:
+        connections:
+            ephemeral:
+                dsn: '%env(REDIS_EPHEMERAL)%'
+            persistent:
+                dsn: '%env(REDIS_PERSISTENT)%'

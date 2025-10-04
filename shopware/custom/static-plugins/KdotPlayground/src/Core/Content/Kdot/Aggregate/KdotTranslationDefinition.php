@@ -6,8 +6,8 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityTranslationDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use KdotPlayground\Core\Content\Kdot\KdotDefinition;
-use KdotPlayground\Core\Content\Kdot\KdotTranslationEntity;
-use KdotPlayground\Core\Content\Kdot\KdotTranslationCollection;
+use KdotPlayground\Core\Content\Kdot\Aggregate\KdotTranslationEntity;
+use KdotPlayground\Core\Content\Kdot\Aggregate\KdotTranslationCollection;
 
 class KdotTranslationDefinition extends EntityTranslationDefinition
 {

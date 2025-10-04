@@ -14,6 +14,7 @@ use Shopware\Core\Content\Product\Events\ProductListingCriteriaEvent;
 use Shopware\Core\Content\Product\Events\ProductSearchCriteriaEvent;
 use Shopware\Core\Content\Product\Events\ProductSuggestCriteriaEvent;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
+use KdotPlayground\Core\Content\Kdot\KdotCollection;
 
 class ProductSubscriber
 {

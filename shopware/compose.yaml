@@ -43,6 +43,13 @@ services:
       plugins.security.disabled: 'true'
 ###< shopware/elasticsearch ###
 
+###> symfony/amqp-messenger ###
+  lavinmq:
+    image: cloudamqp/lavinmq
+    volumes:
+      - lavinmq-data:/var/lib/lavinmq:rw
+###< symfony/amqp-messenger ###
+
 volumes:
 ###> shopware/core ###
   db-data:
@@ -51,3 +58,7 @@ volumes:
 ###> shopware/elasticsearch ###
   opensearch-data:
 ###< shopware/elasticsearch ###
+
+###> symfony/amqp-messenger ###
+  lavinmq-data:
+###< symfony/amqp-messenger ###
