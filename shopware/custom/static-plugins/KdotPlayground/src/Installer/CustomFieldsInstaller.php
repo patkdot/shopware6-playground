@@ -18,6 +18,7 @@ class CustomFieldsInstaller
     private const CUSTOM_FIELDSET_NAME = 'kdot';
 
     private const CUSTOM_FIELDSET = [
+        'id' => '0199af5a101b700db2958ed244b43ca0',
         'name' => self::CUSTOM_FIELDSET_NAME,
         'config' => [
             'label' => [
@@ -28,6 +29,7 @@ class CustomFieldsInstaller
         ],
         'customFields' => [
             [
+                'id' => '0199af5a101c72d3b0e97c4460ea9234',
                 'name' => 'kdot_size',
                 'type' => CustomFieldTypes::INT,
                 'config' => [
@@ -64,6 +66,7 @@ class CustomFieldsInstaller
             $id = is_array($customFieldSetId) ? reset($customFieldSetId) : $customFieldSetId;
 
             return [
+                'id' => '0199af5a157571428aaacfa03678ef38',
                 'customFieldSetId' => $id,
                 'entityName' => 'product',
             ];
