@@ -30,7 +30,7 @@ class KdotService
         $upserts = [];
         /** @var ProductEntity $product */
         foreach ($productCollection as $product) {
-            if ($product->getExtension('kdot') !== null) {
+            if ($product->getExtension('kdot')?->count() > 0) {
                 continue;
             }
             

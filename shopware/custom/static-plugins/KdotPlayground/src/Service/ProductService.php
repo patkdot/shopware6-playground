@@ -8,6 +8,8 @@ use Shopware\Core\Content\Product\ProductCollection;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -19,13 +21,21 @@ class ProductService
     public function __construct(
         private readonly EntityRepository $productRepository,
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function getAllProducts(): ProductCollection
     {
         $criteria = new Criteria();
         $criteria->addAssociation('kdot');
+        $criteria->addFilter(
+            new NotFilter(
+                NotFilter::CONNECTION_OR,
+                [
+                    new EqualsFilter('name', null),
+                    new EqualsFilter('name', ''),
+                ]
+            )
+        );
         return $this->productRepository->search($criteria, Context::createDefaultContext())->getEntities();
     }
 
