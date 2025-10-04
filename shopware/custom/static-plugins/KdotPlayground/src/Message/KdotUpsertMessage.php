@@ -9,7 +9,7 @@ use Shopware\Core\Framework\Context;
 class KdotUpsertMessage
 {
     /**
-     * @param array<string, mixed> $upserts
+     * @param list<array<string, array<string, array<string, string>>|string|true>> $upserts
      */
     public function __construct(
         private array $upserts,
@@ -19,7 +19,7 @@ class KdotUpsertMessage
     }
 
     /**
-     * @return array<string, mixed>
+     * @return list<array<string, array<string, array<string, string>>|string|true>>
      */
     public function getUpserts(): array
     {
@@ -27,7 +27,7 @@ class KdotUpsertMessage
     }
 
     /**
-     * @param array<string, mixed> $upserts
+     * @param list<array<string, array<string, array<string, string>>|string|true>> $upserts
      */
     public function addUpserts(array $upserts): void
     {

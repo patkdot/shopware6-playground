@@ -56,7 +56,7 @@ class KdotService
         }
 
         if ($useQueue) {
-            $this->messageBus->dispatch(new KdotUpsertMessage(['data' => $upserts], $context, false));
+            $this->messageBus->dispatch(new KdotUpsertMessage($upserts, $context, false));
         } else {
             $this->kdotRepository->upsert($upserts, $context);
         }
@@ -90,7 +90,7 @@ class KdotService
         }
 
         if ($useQueue) {
-            $this->messageBus->dispatch(new KdotUpsertMessage(['data' => $upserts], $context, true));
+            $this->messageBus->dispatch(new KdotUpsertMessage($upserts, $context, true));
         } else {
             $this->syncService->sync([
                 new SyncOperation(
