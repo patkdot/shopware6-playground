@@ -5,10 +5,6 @@ on:
     paths:
       - 'shopware/custom/static-plugins/**'
       - '.github/workflows/php-ci.yml'
-  pull_request:
-    paths:
-      - 'shopware/custom/static-plugins/**'
-      - '.github/workflows/php-ci.yml'
 
 jobs:
   phpstan:
@@ -36,15 +32,15 @@ jobs:
     
     - name: Install dependencies
       run: |
-        composer install
+        cd shopware && composer install
     
     - name: Run PHPStan
       run: |
-        ./vendor/bin/phpstan analyse shopware/custom/static-plugins --level=8
+        cd shopware && ./vendor/bin/phpstan analyse shopware/custom/static-plugins --level=8
     
     - name: Run PHP-CS-Fixer (dry run)
       run: |
-        ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff --config=./.php-cs-fixer.dist.php
+        cd shopware && ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff --config=./.php-cs-fixer.dist.php
 
   php-cs-fixer:
     name: PHP-CS-Fixer
@@ -71,9 +67,9 @@ jobs:
     
     - name: Install dependencies
       run: |
-        composer install
+        cd shopware && composer install
     
     - name: Run PHP-CS-Fixer
       run: |
-        ./vendor/bin/php-cs-fixer check --using-cache=no --diff --config=./.php-cs-fixer.dist.php
+        cd shopware && ./vendor/bin/php-cs-fixer check --using-cache=no --diff --config=./.php-cs-fixer.dist.php
       continue-on-error: true
