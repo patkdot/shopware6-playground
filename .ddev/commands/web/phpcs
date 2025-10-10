@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: runs php-cs fix
+## Usage: phpcs
+## Example: "ddev phpcs"
+
+vendor/bin/php-cs-fixer fix

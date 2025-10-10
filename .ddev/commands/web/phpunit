@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: runs phpunit
+## Usage: phpunit
+## Example: "ddev phpunit"
+
+APP_ENV=test vendor/bin/phpunit --configuration="custom/static-plugins/KdotPlayground"
