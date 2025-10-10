@@ -11,4 +11,4 @@ $loader = (new TestBootstrapper())
     ->bootstrap()
     ->getClassLoader();
 
-$loader->addPsr4('KdotPlayground\\Tests\\', __DIR__);
+$loader->addPsr4('KdotPlayground\\Test\\', __DIR__);

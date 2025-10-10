@@ -18,6 +18,9 @@ disable_settings_management: true
 web_environment:
     - APP_ENV=dev
 corepack_enable: false
+hooks:
+  post-start:
+    - exec: "/var/www/html/.ddev/commands/web/test-db"
 
 # Key features of DDEV's config.yaml:
 

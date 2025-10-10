@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## Description: runs phpstan, php-cs and phpunit
+## Usage: qs
+## Example: "ddev qs"
+
+vendor/bin/phpstan
+vendor/bin/php-cs-fixer fix
+APP_ENV=test vendor/bin/phpunit --configuration="custom/static-plugins/KdotPlayground"

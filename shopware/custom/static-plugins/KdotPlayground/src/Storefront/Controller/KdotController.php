@@ -15,7 +15,6 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Storefront\Controller\StorefrontController;
 use Shopware\Storefront\Framework\Routing\StorefrontRouteScope;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -27,7 +26,7 @@ class KdotController extends StorefrontController
         name: 'frontend.kdot.index',
         methods: ['GET']
     )]
-    public function showIndex(Request $request, SalesChannelContext $context): Response
+    public function showIndex(): Response
     {
         return $this->renderStorefront('@KdotPlayground/storefront/page/index.html.twig', [
             'kdot' => 'Hello world',
@@ -43,7 +42,7 @@ class KdotController extends StorefrontController
         methods: ['GET'],
         defaults: ['XmlHttpRequest' => true]
     )]
-    public function showBoughtProducts(Request $request, SalesChannelContext $context, EntityRepository $orderRepository, SystemConfigService $config): Response
+    public function showBoughtProducts(SalesChannelContext $context, EntityRepository $orderRepository, SystemConfigService $config): Response
     {
         if ($config->get('KdotPlayground.config.active') === false) {
             return $this->json(['error' => 'activate the plugin first']);
