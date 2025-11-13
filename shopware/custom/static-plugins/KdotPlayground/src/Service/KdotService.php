@@ -43,8 +43,8 @@ class KdotService
             $upserts[] = [
                 'id' => Uuid::randomHex(),
                 'translations' => [
-                    'de-DE' => ['name' => 'Kdot DE ' . $product->getName(), 'description' => 'Kdot DE ' . $product->getDescription()],
-                    'en-GB' => ['name' => 'Kdot EN ' . $product->getName(), 'description' => 'Kdot EN ' . $product->getDescription()],
+                    'de-DE' => ['name' => 'Kdot DE name', 'description' => 'Kdot DE description'],
+                    'en-GB' => ['name' => 'Kdot EN name', 'description' => 'Kdot EN description'],
                 ],
                 'active' => true,
                 'productId' => $product->getId(),
@@ -77,8 +77,8 @@ class KdotService
             $upserts[] = [
                 'id' => Uuid::randomHex(),
                 'translations' => [
-                    'de-DE' => ['name' => 'Kdot DE ' . $product['name'], 'description' => 'Kdot DE ' . $product['description']],
-                    'en-GB' => ['name' => 'Kdot EN ' . $product['name'], 'description' => 'Kdot EN ' . $product['description']],
+                    'de-DE' => ['name' => 'Kdot DE name', 'description' => 'Kdot DE description'],
+                    'en-GB' => ['name' => 'Kdot EN name', 'description' => 'Kdot EN description'],
                 ],
                 'active' => true,
                 'productId' => $product['id'],

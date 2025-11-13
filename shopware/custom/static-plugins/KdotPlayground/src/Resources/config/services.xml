@@ -12,5 +12,10 @@
     <services>
         <defaults autowire="true" autoconfigure="true" />
         <prototype namespace="KdotPlayground\" resource="../../**/*"/>
+
+        <service id="KdotPlayground\Elasticsearch\Product\ElasticsearchProductDefinitionDecorator" decorates="Shopware\Elasticsearch\Product\ElasticsearchProductDefinition">
+            <argument type="service" id="KdotPlayground\Elasticsearch\Product\ElasticsearchProductDefinitionDecorator.inner"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
     </services>
 </container>

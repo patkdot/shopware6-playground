@@ -6,7 +6,7 @@
         "composer-runtime-api": "^2.0",
         "kdot/playground": "*",
         "shopware/administration": "*",
-        "shopware/core": "v6.7.2.2",
+        "shopware/core": "^v6.7",
         "shopware/elasticsearch": "*",
         "shopware/storefront": "*",
         "symfony/amqp-messenger": "^7.3",

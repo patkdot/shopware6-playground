@@ -1,7 +1,14 @@
 {% sw_extends '@Storefront/storefront/component/product/description.html.twig' %}
 {% block component_product_description_content_text %}
-    {% if page.getExtension('kdot') %}
-        test-kdot-{{ dump(page.getExtension('kdot')) }}
+
+    {% if page.product.extensions.kdot %}
+        {{ dump(page.product.extensions.kdot.first) }}
     {% endif %}
+
+    {% if page.extensions.kdot %}
+        {{ dump(page.extensions.kdot) }}
+    {% endif %}
+
     {{ parent() }}
+    
 {% endblock %}
