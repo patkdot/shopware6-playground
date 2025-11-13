@@ -17,5 +17,10 @@
             <argument type="service" id="KdotPlayground\Elasticsearch\Product\ElasticsearchProductDefinitionDecorator.inner"/>
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
+
+        <service id="KdotPlayground\Flow\Action\KdotAction">
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <tag name="flow.action" priority="600" key="action.kdot"/>
+        </service>
     </services>
 </container>
