@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Subscriber;
 
-use KdotPlayground\Core\Content\Kdot\KdotCollection;
 use Shopware\Core\Content\Product\Events\ProductListingCriteriaEvent;
 use Shopware\Core\Content\Product\Events\ProductSearchCriteriaEvent;
 use Shopware\Core\Content\Product\Events\ProductSuggestCriteriaEvent;
 use Shopware\Core\Content\Product\ProductEvents;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -17,11 +16,7 @@ use Shopware\Storefront\Page\Product\ProductPageCriteriaEvent;
 
 class ProductSubscriber
 {
-    /**
-     * @param EntityRepository<KdotCollection> $kdotRepository
-     */
     public function __construct(
-        private readonly EntityRepository $kdotRepository,
         private readonly SystemConfigService $config
     ) {}
 
@@ -32,7 +27,7 @@ class ProductSubscriber
             return;
         }
 
-        $event->getPage()->setExtensions(['kdot' => 'test']);
+        $event->getPage()->setExtensions(['kdot' => new ArrayStruct(['kdot' => 'test'])]);
     }
 
     #[AsEventListener(event: ProductEvents::PRODUCT_LISTING_CRITERIA)]

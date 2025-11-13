@@ -27,6 +27,8 @@ class KdotUpsertMessageHandler
             $this->kdotService->directUpsertViaRepository($message->getUpserts(), $message->getContext());
         }
 
-        $this->dispatcher->dispatch(new KdotEvent($message->getUpserts(), $message->getContext()));
+        /** @var array<string, mixed> $upserts */
+        $upserts = $message->getUpserts();
+        $this->dispatcher->dispatch(new KdotEvent($upserts, $message->getContext()));
     }
 }

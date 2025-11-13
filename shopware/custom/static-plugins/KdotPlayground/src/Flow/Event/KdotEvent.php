@@ -14,6 +14,10 @@ class KdotEvent extends Event implements KdotAware, FlowEventAware
 {
     public const EVENT_NAME = 'kdot.event';
 
+    /**
+     * @param array<string, mixed> $productUpsertData
+     * @param Context $context
+     */
     public function __construct(private array $productUpsertData, private Context $context) {}
 
     public function getName(): string
@@ -21,6 +25,9 @@ class KdotEvent extends Event implements KdotAware, FlowEventAware
         return self::EVENT_NAME;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getKdotData(): array
     {
         return $this->productUpsertData;

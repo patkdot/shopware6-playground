@@ -12,5 +12,8 @@ interface KdotAware extends FlowEventAware
 {
     public const KDOT_DATA = 'kdotData';
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getKdotData(): array;
 }

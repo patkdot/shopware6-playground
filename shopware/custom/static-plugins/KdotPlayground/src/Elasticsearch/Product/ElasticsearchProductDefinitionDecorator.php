@@ -25,7 +25,10 @@ class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefin
 
     public function buildTermQuery(Context $context, Criteria $criteria): BoolQuery
     {
-        return $this->decorated->buildTermQuery($context, $criteria);
+        /** @var BoolQuery $boolQuery */
+        $boolQuery = $this->decorated->buildTermQuery($context, $criteria);
+
+        return $boolQuery;
     }
 
     public function getMapping(Context $context): array
@@ -64,6 +67,10 @@ class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefin
         return $documents;
     }
 
+    /**
+     * @param array<string> $ids
+     * @return bool[][]
+     */
     private function fetchKdots(array $ids): array
     {
         $query = <<<SQL
