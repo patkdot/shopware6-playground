@@ -1,0 +1,8 @@
+{
+    "kdot-action": {
+        "label": "send kdot email",
+        "description": "to kdot at schafmail.de",
+        "titleCreateTag": "Just save",
+        "buttonSaveAction": "Save"
+    }
+}

@@ -1,0 +1,34 @@
+{% block kdot_action_modal %}
+<sw-modal
+    class="kdot-action-modal"
+    :title="$tc('kdot-action.titleCreateTag')"
+    @modal-close="onClose"
+>
+    {% block kdot_action_modal_content %}{% endblock %}
+
+    {% block kdot_action_modall_footer %}
+        <template #modal-footer>
+            {% block kdot_action_modal_footer_cancel_button %}
+                <sw-button
+                    class="kdot-action-modal__cancel-button"
+                    size="small"
+                    @click="onClose"
+                >
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+            {% endblock %}
+
+            {% block kdot_action_modal_footer_save_button %}
+                <sw-button
+                    class="kdot-action-modal__save-button"
+                    variant="primary"
+                    size="small"
+                    @click="onAddAction"
+                >
+                    {{ $tc('kdot-action.buttonSaveAction') }}
+                </sw-button>
+            {% endblock %}
+        </template>
+    {% endblock %}
+</sw-modal>
+{% endblock %}

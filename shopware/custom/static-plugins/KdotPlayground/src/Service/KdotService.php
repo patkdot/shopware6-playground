@@ -15,7 +15,9 @@ use Shopware\Core\Framework\Api\Sync\SyncService;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use KdotPlayground\Flow\Event\KdotEvent;
 
 class KdotService
 {
@@ -26,6 +28,7 @@ class KdotService
         private readonly EntityRepository $kdotRepository,
         private readonly SyncService $syncService,
         private readonly MessageBusInterface $messageBus,
+        private readonly EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -43,8 +46,8 @@ class KdotService
             $upserts[] = [
                 'id' => Uuid::randomHex(),
                 'translations' => [
-                    'de-DE' => ['name' => 'Kdot DE ' . $product->getName(), 'description' => 'Kdot DE ' . $product->getDescription()],
-                    'en-GB' => ['name' => 'Kdot EN ' . $product->getName(), 'description' => 'Kdot EN ' . $product->getDescription()],
+                    'de-DE' => ['name' => 'Kdot DE name', 'description' => 'Kdot DE description'],
+                    'en-GB' => ['name' => 'Kdot EN name', 'description' => 'Kdot EN description'],
                 ],
                 'active' => true,
                 'productId' => $product->getId(),
@@ -77,8 +80,8 @@ class KdotService
             $upserts[] = [
                 'id' => Uuid::randomHex(),
                 'translations' => [
-                    'de-DE' => ['name' => 'Kdot DE ' . $product['name'], 'description' => 'Kdot DE ' . $product['description']],
-                    'en-GB' => ['name' => 'Kdot EN ' . $product['name'], 'description' => 'Kdot EN ' . $product['description']],
+                    'de-DE' => ['name' => 'Kdot DE name', 'description' => 'Kdot DE description'],
+                    'en-GB' => ['name' => 'Kdot EN name', 'description' => 'Kdot EN description'],
                 ],
                 'active' => true,
                 'productId' => $product['id'],
@@ -118,6 +121,7 @@ class KdotService
                 $upserts
             ),
         ], $context, new SyncBehavior());
+        $this->dispatcher->dispatch(new KdotEvent($upserts, $context));
 
         return count($upserts);
     }
@@ -128,6 +132,7 @@ class KdotService
     public function directUpsertViaRepository(array $upsert, Context $context): int
     {
         $this->kdotRepository->upsert($upsert, $context);
+        $this->dispatcher->dispatch(new KdotEvent($upsert, $context));
 
         return count($upsert);
     }

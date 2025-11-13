@@ -6,13 +6,16 @@ namespace KdotPlayground\MessageHandler;
 
 use KdotPlayground\Message\KdotUpsertMessage;
 use KdotPlayground\Service\KdotService;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use KdotPlayground\Flow\Event\KdotEvent;
 
 #[AsMessageHandler]
 class KdotUpsertMessageHandler
 {
     public function __construct(
         private readonly KdotService $kdotService,
+        private readonly EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -23,5 +26,9 @@ class KdotUpsertMessageHandler
         } else {
             $this->kdotService->directUpsertViaRepository($message->getUpserts(), $message->getContext());
         }
+
+        /** @var array<string, mixed> $upserts */
+        $upserts = $message->getUpserts();
+        $this->dispatcher->dispatch(new KdotEvent($upserts, $message->getContext()));
     }
 }

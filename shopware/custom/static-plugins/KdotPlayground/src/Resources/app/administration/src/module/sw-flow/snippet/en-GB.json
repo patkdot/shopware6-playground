@@ -1,0 +1,8 @@
+{
+  "sw-flow": {
+    "triggers": {
+      "kdot": "Kdot Product extension",
+      "event": "Kdot extension added to product"
+    }
+  }
+}

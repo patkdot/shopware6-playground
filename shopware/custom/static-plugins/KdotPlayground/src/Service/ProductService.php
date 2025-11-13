@@ -57,7 +57,6 @@ class ProductService
 
         $result = $sql->executeQuery()->fetchAllAssociative();
 
-        // Ensure consistent return type
         return array_map(function (array $row) {
             return [
                 'id' => (string)($row['id'] ?? ''),

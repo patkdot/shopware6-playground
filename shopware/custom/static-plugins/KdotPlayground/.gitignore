@@ -1,0 +1,3 @@
+.phpunit.result.cache
+src/Resources/app/administration/.tmp
+src/Resources/public/administration
