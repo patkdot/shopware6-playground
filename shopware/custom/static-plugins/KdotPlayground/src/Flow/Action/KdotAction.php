@@ -13,7 +13,8 @@ class KdotAction extends FlowAction
 {
     public function __construct(
         private readonly AbstractMailService $mailService,
-    ) {}
+    ) {
+    }
 
     public static function getName(): string
     {

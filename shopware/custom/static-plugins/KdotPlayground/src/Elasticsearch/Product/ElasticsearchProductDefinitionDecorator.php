@@ -1,14 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace KdotPlayground\Elasticsearch\Product;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use OpenSearchDSL\Query\Compound\BoolQuery;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Elasticsearch\Framework\AbstractElasticsearchDefinition;
-use Doctrine\DBAL\ArrayParameterType;
 
 class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefinition
 {
@@ -40,7 +42,7 @@ class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefin
                 'type' => 'nested',
                 'properties' => [
                     'active' => AbstractElasticsearchDefinition::BOOLEAN_FIELD,
-                ]
+                ],
             ],
         ];
 
@@ -69,6 +71,7 @@ class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefin
 
     /**
      * @param array<string> $ids
+     *
      * @return bool[][]
      */
     private function fetchKdots(array $ids): array
@@ -86,7 +89,7 @@ class ElasticsearchProductDefinitionDecorator extends AbstractElasticsearchDefin
                 'ids' => $ids,
             ],
             [
-                'ids' => ArrayParameterType::STRING
+                'ids' => ArrayParameterType::STRING,
             ]
         );
 

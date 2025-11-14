@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace KdotPlayground\Flow\Storer;
 
 use KdotPlayground\Flow\Aware\KdotAware;
-use Shopware\Core\Framework\Event\FlowEventAware;
-use Shopware\Core\Content\Flow\Dispatching\Storer\FlowStorer;
 use Shopware\Core\Content\Flow\Dispatching\StorableFlow;
+use Shopware\Core\Content\Flow\Dispatching\Storer\FlowStorer;
+use Shopware\Core\Framework\Event\FlowEventAware;
 
 class KdotStorer extends FlowStorer
 {
-
     public function store(FlowEventAware $event, array $stored): array
     {
         if (!$event instanceof KdotAware || isset($stored['kdot'])) {

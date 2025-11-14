@@ -6,6 +6,7 @@ namespace KdotPlayground\Service;
 
 use KdotPlayground\Core\Content\Kdot\KdotCollection;
 use KdotPlayground\Core\Content\Kdot\KdotDefinition;
+use KdotPlayground\Flow\Event\KdotEvent;
 use KdotPlayground\Message\KdotUpsertMessage;
 use Shopware\Core\Content\Product\ProductCollection;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -17,7 +18,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use KdotPlayground\Flow\Event\KdotEvent;
 
 class KdotService
 {
