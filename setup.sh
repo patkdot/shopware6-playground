@@ -9,7 +9,7 @@ ddev exec bin/console plugin:uninstall SwagPayPal
 rm -rf shopware/custom/plugins/SwagPayPal
 ddev exec composer require --dev shopware/dev-tools
 ddev exec APP_ENV=prod bin/console framework:demodata --orders=0
-ddev exec bin/console es:index
+ddev exec bin/console es:index --no-queue
 echo "Create .env.local ..."
 cat <<EOF > shopware/.env.local
 APP_DEBUG=1
