@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace KdotPlayground\MessageHandler;
 
+use KdotPlayground\Flow\Event\KdotEvent;
 use KdotPlayground\Message\KdotUpsertMessage;
 use KdotPlayground\Service\KdotService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use KdotPlayground\Flow\Event\KdotEvent;
 
 #[AsMessageHandler]
 class KdotUpsertMessageHandler

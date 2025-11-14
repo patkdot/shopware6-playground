@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace KdotPlayground\Subscriber;
 
+use KdotPlayground\Flow\Event\KdotEvent;
 use Shopware\Core\Framework\Event\BusinessEventCollector;
 use Shopware\Core\Framework\Event\BusinessEventCollectorEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use KdotPlayground\Flow\Event\KdotEvent;
 
 class BusinessEventCollectorSubscriber
 {

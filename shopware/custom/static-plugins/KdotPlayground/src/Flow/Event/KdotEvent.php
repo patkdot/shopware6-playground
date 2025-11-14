@@ -6,8 +6,8 @@ namespace KdotPlayground\Flow\Event;
 
 use KdotPlayground\Flow\Aware\KdotAware;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Event\FlowEventAware;
 use Shopware\Core\Framework\Event\EventData\EventDataCollection;
+use Shopware\Core\Framework\Event\FlowEventAware;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class KdotEvent extends Event implements KdotAware, FlowEventAware
@@ -18,7 +18,9 @@ class KdotEvent extends Event implements KdotAware, FlowEventAware
      * @param array<string, mixed> $productUpsertData
      * @param Context $context
      */
-    public function __construct(private array $productUpsertData, private Context $context) {}
+    public function __construct(private array $productUpsertData, private Context $context)
+    {
+    }
 
     public function getName(): string
     {
