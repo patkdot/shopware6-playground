@@ -26,6 +26,8 @@ For more info run: `ddev describe`
 * Database migration
 * Adds new product extension data to template via subscriber and criteria
 * API Route for new product extension data entity
+* Add product extension data to Opensearch
+* Custom flow trigger and action
 * PHPUnit tests
 
 
